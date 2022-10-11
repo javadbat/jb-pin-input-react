@@ -1,0 +1,1 @@
+export {JBPaymentInput} from './dist/JBPinInput.js';
