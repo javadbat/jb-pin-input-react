@@ -1,1 +1,1 @@
-export {JBPaymentInput} from './dist/JBPinInput.js';
+export {JBPinInput} from './dist/JBPinInput.js';
