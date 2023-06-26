@@ -2,12 +2,30 @@ import React, { useRef, useEffect, useImperativeHandle, useState, useCallback } 
 import PropTypes from 'prop-types';
 import 'jb-pin-input';
 import { useEvent } from '../../custom-hooks/UseEvent';
+// eslint-disable-next-line no-duplicate-imports
+import { JBPinInputWebComponent } from 'jb-pin-input';
+
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace JSX {
+      interface IntrinsicElements {
+        'jb-pin-input': JBPinInputType;
+      }
+      interface JBPinInputType extends React.DetailedHTMLProps<React.HTMLAttributes<JBPinInputWebComponent>, JBPinInputWebComponent> {
+        class?:string,
+        label?: string,
+        name?:string,
+        message?:string,
+        // ref:React.RefObject<JBDateInputWebComponent>,
+      }
+    }
+}
 // eslint-disable-next-line react/display-name
-export const JBPinInput = React.forwardRef((props, ref) => {
+export const JBPinInput = React.forwardRef((props:JBPinInputProps, ref) => {
     /**
      * @type {React.MutableRefObject<HTMLInputElement>}
      */
-    const element = useRef();
+    const element = useRef<JBPinInputWebComponent>(null);
     const [refChangeCount, refChangeCountSetter] = useState(0);
     useImperativeHandle(
         ref,
@@ -54,41 +72,38 @@ export const JBPinInput = React.forwardRef((props, ref) => {
         }
     },[props.onInput]);
     const onBeforeInput = useCallback((e)=>{
-        if (typeof props.onBeforeInput == 'function' && e instanceof InputEvent) {
-            props.onBeforeInput(e);
+        if (typeof props.onBeforeinput == 'function' && e instanceof InputEvent) {
+            props.onBeforeinput(e);
         }
-    },[props.onBeforeInput]);
+    },[props.onBeforeinput]);
     useEffect(() => {
         let value = props.value;
         if (props.value == null || props.value === undefined) {
             value = '';
         }
-        element.current.value = value;
-    }, [props.value]);
-    useEffect(() => {
-        element.current.validationList = props.validationList || [];
-    }, [props.validationList]);
-    useEffect(() => {
-        if (typeof props.numberFieldParameter == "object") {
-            element.current.setNumberFieldParameter(props.numberFieldParameter);
+        if(element.current){
+            element.current.value = value?.toString() || "";
         }
-    }, [props.numberFieldParameter]);
+    }, [props.value]);
+    // useEffect(() => {
+    //     element.current.validationList = props.validationList || [];
+    // }, [props.validationList]);
     useEffect(() => {
         if (typeof props.disabled == "boolean") {
-            element.current.setAttribute('disabled', `${props.disabled}`);
+            element.current?.setAttribute('disabled', `${props.disabled}`);
         }
     }, [props.disabled]);
     useEffect(() => {
         if(props.inputmode){
-            element.current.setAttribute('inputmode',props.inputmode);
+            element.current?.setAttribute('inputmode',props.inputmode);
         }else{
-            element.current.removeAttribute('inputmode');
+            element.current?.removeAttribute('inputmode');
         }
     }
     , [props.inputmode]);
     useEffect(()=>{
         if(props.autofocus){
-            element.current.setAttribute("autofocus","true");
+            element.current?.setAttribute("autofocus","true");
         }
     },[props.autofocus]);
     useEvent(element.current, 'change', onChange);
@@ -105,25 +120,46 @@ export const JBPinInput = React.forwardRef((props, ref) => {
         </jb-pin-input>
     );
 });
-
+type JBPinInputProps = {
+    label?: string,
+    value?: string | number,
+    message?:string,
+    onChange?: (e:Event)=>void,
+    onKeyup?: (e:KeyboardEvent)=>void,
+    onKeydown?: (e:KeyboardEvent)=>void,
+    onEnter?: (e:CustomEvent)=>void,
+    onInput?: (e:InputEvent)=>void,
+    onBeforeinput?:(e:InputEvent)=>void,
+    onFocus?: (e:FocusEvent)=>void,
+    onBlur?: (e:FocusEvent)=>void,
+    className?: string,
+    //type: string,
+    //validationList: Validation,
+    //numberFieldParameter: PropTypes.object,
+    disabled?: boolean,
+    inputmode?: string,
+    autofocus?: boolean,
+    children?:any,
+}
 JBPinInput.propTypes = {
     label: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    type: PropTypes.string,
+    message:PropTypes.string,
+    // type: PropTypes.string,
     onChange: PropTypes.func,
-    onKeyUp: PropTypes.func,
+    onKeyup: PropTypes.func,
+    onKeydown: PropTypes.func,
     onEnter: PropTypes.func,
     onInput: PropTypes.func,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
     onBeforeinput: PropTypes.func,
     className: PropTypes.string,
-    validationList: PropTypes.array,
-    direction: PropTypes.string,
-    numberFieldParameter: PropTypes.object,
+    // validationList: PropTypes.array,
     disabled: PropTypes.bool,
     inputmode: PropTypes.string,
     autofocus: PropTypes.bool,
+    children: PropTypes.element
 };
 JBPinInput.displayName = "JBPinInput";
 
