@@ -17,3 +17,10 @@ import {JBPinInput} from 'jb-pin-input-react'
 
 <JBPinInput></JBPinInput>
 ```
+## char length
+
+if you want to change the pin length to 5digit or 10 digit or anything elese you just have to provide ti to charLength Prop
+
+```jsx
+<JBPinInput charLength={5}></JBPinInput>
+```

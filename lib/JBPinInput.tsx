@@ -94,6 +94,11 @@ export const JBPinInput = React.forwardRef((props:JBPinInputProps, ref) => {
         }
     }, [props.disabled]);
     useEffect(() => {
+        if (typeof props.charLength == "number" && element.current) {
+            element.current.charLength = props.charLength;
+        }
+    }, [props.charLength]);
+    useEffect(() => {
         if(props.inputmode){
             element.current?.setAttribute('inputmode',props.inputmode);
         }else{
@@ -139,6 +144,7 @@ type JBPinInputProps = {
     disabled?: boolean,
     inputmode?: string,
     autofocus?: boolean,
+    charLength?:number,
     children?:any,
 }
 JBPinInput.propTypes = {
@@ -159,6 +165,7 @@ JBPinInput.propTypes = {
     disabled: PropTypes.bool,
     inputmode: PropTypes.string,
     autofocus: PropTypes.bool,
+    charLength: PropTypes.number,
     children: PropTypes.element
 };
 JBPinInput.displayName = "JBPinInput";
