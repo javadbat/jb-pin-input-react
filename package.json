@@ -20,7 +20,7 @@
     "react",
     "react component"
   ],
-  "version": "2.1.0",
+  "version": "2.2.0",
   "bugs": "https://github.com/javadbat/jb-pin-input-react/issues",
   "license": "MIT",
   "files": [
@@ -36,6 +36,6 @@
 		"url": "git@github.com:javadbat/jb-pin-input-react.git"
   },
   "dependencies": {
-    "jb-pin-input": ">=1.1.0"
+    "jb-pin-input": ">=1.2.0"
   }
 }
