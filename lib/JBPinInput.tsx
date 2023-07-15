@@ -40,38 +40,38 @@ export const JBPinInput = React.forwardRef((props:JBPinInputProps, ref) => {
             props.onChange(e);
         }
     }
-    const onKeydown = useCallback((e)=>{
+    const onKeydown = useCallback((e:JBPinInputEventType<KeyboardEvent>)=>{
         if (typeof props.onKeydown == "function") {
             props.onKeydown(e);
         }
     },[props.onKeydown]);
-    const onKeyup = useCallback((e)=>{
+    const onKeyup = useCallback((e:JBPinInputEventType<KeyboardEvent>)=>{
         if (typeof props.onKeyup == "function") {
             props.onKeyup(e);
         }
     },[props.onKeyup]);
     
-    const onEnter = useCallback((e)=>{
+    const onEnter = useCallback((e:JBPinInputEventType<CustomEvent>)=>{
         if (props.onEnter) {
             props.onEnter(e);
         }
     },[props.onEnter]);
-    const onFocus = useCallback((e)=>{
+    const onFocus = useCallback((e:JBPinInputEventType<FocusEvent>)=>{
         if (props.onFocus && e instanceof FocusEvent) {
             props.onFocus(e);
         }
     },[props.onFocus]);
-    const onBlur = useCallback((e)=>{
+    const onBlur = useCallback((e:JBPinInputEventType<FocusEvent>)=>{
         if (props.onBlur && e instanceof FocusEvent) {
             props.onBlur(e);
         }
     },[props.onBlur]);
-    const onInput = useCallback((e)=>{
+    const onInput = useCallback((e:JBPinInputEventType<InputEvent>)=>{
         if (typeof props.onInput == 'function' && e instanceof InputEvent) {
             props.onInput(e);
         }
     },[props.onInput]);
-    const onBeforeInput = useCallback((e)=>{
+    const onBeforeInput = useCallback((e:JBPinInputEventType<InputEvent>)=>{
         if (typeof props.onBeforeinput == 'function' && e instanceof InputEvent) {
             props.onBeforeinput(e);
         }
@@ -125,18 +125,21 @@ export const JBPinInput = React.forwardRef((props:JBPinInputProps, ref) => {
         </jb-pin-input>
     );
 });
+export type JBPinInputEventType<T> = T & {
+    target: JBPinInputWebComponent
+}
 type JBPinInputProps = {
     label?: string,
     value?: string | number,
     message?:string,
-    onChange?: (e:Event)=>void,
-    onKeyup?: (e:KeyboardEvent)=>void,
-    onKeydown?: (e:KeyboardEvent)=>void,
-    onEnter?: (e:CustomEvent)=>void,
-    onInput?: (e:InputEvent)=>void,
-    onBeforeinput?:(e:InputEvent)=>void,
-    onFocus?: (e:FocusEvent)=>void,
-    onBlur?: (e:FocusEvent)=>void,
+    onChange?: (e:JBPinInputEventType<Event>)=>void,
+    onKeyup?: (e:JBPinInputEventType<KeyboardEvent>)=>void,
+    onKeydown?: (e:JBPinInputEventType<KeyboardEvent>)=>void,
+    onEnter?: (e:JBPinInputEventType<CustomEvent>)=>void,
+    onInput?: (e:JBPinInputEventType<InputEvent>)=>void,
+    onBeforeinput?:(e:JBPinInputEventType<InputEvent>)=>void,
+    onFocus?: (e:JBPinInputEventType<FocusEvent>)=>void,
+    onBlur?: (e:JBPinInputEventType<FocusEvent>)=>void,
     className?: string,
     //type: string,
     //validationList: Validation,
