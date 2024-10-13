@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useImperativeHandle, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import 'jb-pin-input';
-import { useEvent } from '../../../common/hooks/use-event';
+import { useEvent } from '../../../common/hooks/use-event.js';
 // eslint-disable-next-line no-duplicate-imports
 import { JBPinInputWebComponent } from 'jb-pin-input';
 
